@@ -144,13 +144,15 @@ const Room = () => {
         />
 
         <div className="flex flex-wrap justify-between items-center gap-4">
-          <label className="cursor-pointer text-blue-600 font-medium">
+
+        
+          {/* <label className="cursor-pointer text-blue-600 font-medium">
             <input type="file" className="hidden" onChange={handleFileChange} />
             📎 Upload File
             {fileName && (
               <span className="ml-2 text-sm text-gray-700">({fileName})</span>
             )}
-          </label>
+          </label> */}
 
           <div className="flex gap-3">
             <Tooltip title="Copy text">
