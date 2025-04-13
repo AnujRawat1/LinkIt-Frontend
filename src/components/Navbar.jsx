@@ -1,11 +1,30 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-
-const generateRoomId = () => Math.random().toString(36).substring(2, 8);
+import { toast } from 'react-toastify';
+import { createRoom } from '../services/RoomService'; // Make sure this path is correct
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleCreate = async () => {
+    try {
+      console.log('Requesting API to Create Room');
+
+      const data = await createRoom();
+      console.log(data);
+
+      toast.success('Room Created Successfully 🎉');
+
+      navigate(`/room/${data.roomId}`);
+    } catch (error) {
+      toast.error('Failed to create room!');
+      console.error('Failed to Create Room: ', error);
+    } finally {
+      setMenuOpen(false);
+    }
+  };
 
   return (
     <nav
@@ -20,7 +39,7 @@ const Navbar = () => {
           </h1>
         </Link>
 
-        {/* Hamburger menu button */}
+        {/* Hamburger menu */}
         <div className="sm:hidden">
           <button onClick={() => setMenuOpen(!menuOpen)} className="text-black">
             {menuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -50,13 +69,10 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link
-              to={`/room/${generateRoomId()}`}
-              onClick={() => setMenuOpen(false)}
-              className="hover:text-blue-800"
-            >
+            {/* ✅ Create Room link triggers API */}
+            <span onClick={handleCreate} className="hover:text-blue-800 cursor-pointer">
               Create Room
-            </Link>
+            </span>
           </li>
         </ul>
       </div>
