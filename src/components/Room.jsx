@@ -8,7 +8,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import useRoomContext from '../context/RoomContext';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import { baseURL_DEV } from '../config/AxiosHelper';
+import { baseURL_DEV, baseURL_PROD } from '../config/AxiosHelper';
 import { getContent, getParticipants, getFileNames, removeParticipant, uploadFiles, downloadFile } from '../services/RoomService';
 
 const Room = () => {
@@ -57,7 +57,7 @@ const Room = () => {
   // WEB SOCKET CONNECTION
   useEffect(() => {
     const connectWebSocket = () => {
-      const socket = new SockJS(`${baseURL_DEV}/clipboard`);
+      const socket = new SockJS(`${baseURL_PROD}/clipboard`);
       const client = Stomp.over(socket);
 
       client.connect({}, () => {
